@@ -1,10 +1,12 @@
-import { useState, createRef } from "react";
+import { useState, createRef, useRef } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 
 function SignUpPage({ navigation }) {
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
   const [pwdChek, setPwdChek] = useState("");
+  const [selected, setSelected] = useState("MANAGER");
   const [idState, setIdState] = useState(true);
   const [pwdState, setPwdState] = useState(true);
   const [pwdChekState, setPwdChekState] = useState(true);
@@ -12,6 +14,7 @@ function SignUpPage({ navigation }) {
   const pwdRef = createRef();
   const pwdChekRef = createRef();
   const btnRef = createRef();
+  const pickerRef = useRef();
 
   const clear = () => {
     idRef.current.clear();
@@ -43,6 +46,7 @@ function SignUpPage({ navigation }) {
         body: JSON.stringify({
           userId: id,
           password: pwd,
+          role: selected,
         }),
       }).then((reponse) => {
         if (reponse.status === 200) {
@@ -92,6 +96,12 @@ function SignUpPage({ navigation }) {
             setPwdChekState(true);
           }}
         />
+        <View style={styles.picker}>
+          <Picker selectedValue={selected} ref={pickerRef} onValueChange={(itemValue, itemIndex) => setSelected(itemValue)}>
+            <Picker.Item label="Manager" value="MANAGER" />
+            <Picker.Item label="Operator" value="OPERATOR" />
+          </Picker>
+        </View>
         <TouchableOpacity
           style={styles.signUpbtn}
           ref={btnRef}
@@ -119,7 +129,7 @@ const styles = StyleSheet.create({
   },
   box: {
     width: "80%",
-    height: 310,
+    height: 360,
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "rgba(0,0,0,0.3)",
@@ -145,6 +155,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#006AD5",
     marginBottom: 20,
+  },
+  picker: {
+    width: "80%",
+    height: 40,
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: 20,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "rgba(0,0,0,0.2)",
   },
 });
 export const headerOptions = () => {

@@ -1,11 +1,14 @@
 import { useState, createRef } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, TextInput, Alert } from "react-native";
+import { useRecoilState } from "recoil";
+import { setRole } from "../store/SetRole";
 
 function LoginPage({ navigation }) {
   const [userId, setUserId] = useState("");
   const [userPwd, setUserPwd] = useState("");
   const [idState, setIdState] = useState(true);
   const [pwdState, setPwdState] = useState(true);
+  const [type, setType] = useRecoilState(setRole);
   const pwdInputRef = createRef();
   const idInputRef = createRef();
   const btnRef = createRef();
@@ -38,7 +41,7 @@ function LoginPage({ navigation }) {
       }).then((reponse) => {
         if (reponse.status === 200) {
           reponse.json().then((re) => {
-            console.log(re);
+            setType(re.role);
           });
           clear();
           setUserId("");
