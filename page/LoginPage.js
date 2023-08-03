@@ -2,6 +2,7 @@ import { useState, createRef } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, TextInput, Alert } from "react-native";
 import { useRecoilState } from "recoil";
 import { setRole } from "../store/SetRole";
+import { setToken } from "../store/SetToken";
 
 function LoginPage({ navigation }) {
   const [userId, setUserId] = useState("");
@@ -9,6 +10,7 @@ function LoginPage({ navigation }) {
   const [idState, setIdState] = useState(true);
   const [pwdState, setPwdState] = useState(true);
   const [type, setType] = useRecoilState(setRole);
+  const [userToken, setUserToken] = useRecoilState(setToken);
   const pwdInputRef = createRef();
   const idInputRef = createRef();
   const btnRef = createRef();
@@ -42,6 +44,7 @@ function LoginPage({ navigation }) {
         if (reponse.status === 200) {
           reponse.json().then((re) => {
             setType(re.role);
+            setUserToken(re.token);
           });
           clear();
           setUserId("");
