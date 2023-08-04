@@ -1,8 +1,16 @@
+import { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import ItemInfoModal from "./ItemInfoModal";
 
 function ItemList({ id, name, location, amount }) {
+  const [visible, setVisible] = useState(false);
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        setVisible(true);
+      }}
+    >
       <View style={styles.idBox}>
         <Text>{id}</Text>
       </View>
@@ -15,6 +23,7 @@ function ItemList({ id, name, location, amount }) {
       <View style={styles.amountBox}>
         <Text>{amount}</Text>
       </View>
+      <ItemInfoModal visible={visible} setVisible={setVisible} id={id} name={name} location={location} total={amount} />
     </TouchableOpacity>
   );
 }
