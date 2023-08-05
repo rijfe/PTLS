@@ -1,9 +1,13 @@
 import { useState } from "react";
-import { View, Modal, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Modal, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { CartList } from "../utils/classes";
+import { useRecoilState } from "recoil";
+
+import { setCartItems } from "../store/setCartItems";
 
 function ItemInfoModal({ visible, setVisible, id, name, location, total }) {
   const [orderCount, setOrderCount] = useState(0);
+  const [items, setItems] = useRecoilState(setCartItems);
 
   const closeModal = () => {
     setVisible(!visible);
@@ -23,8 +27,12 @@ function ItemInfoModal({ visible, setVisible, id, name, location, total }) {
   };
 
   const addBtnClick = () => {
-    const order = new CartList(id, name, orderCount);
-    console.log(order);
+    if (orderCount <= 0) {
+      Alert.alert("Not available for ordering.");
+    } else {
+      const order = new CartList(id, name, orderCount);
+      setItems((oldItems) => [...oldItems, order]);
+    }
   };
 
   return (

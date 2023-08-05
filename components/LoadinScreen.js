@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { useRecoilValue } from "recoil";
+import { useIsFocused } from "@react-navigation/native";
+
 import { getRole } from "../store/SetRole";
 import { getToken } from "../store/SetToken";
 import MainPage from "../page/MainPage";
@@ -12,6 +14,8 @@ function LoadingScreen() {
   const role = useRecoilValue(getRole);
   const token = useRecoilValue(getToken);
 
+  const isFocused = useIsFocused();
+
   const getItem = async () => {
     if (role === "MANAGER") {
       await fetch("http://172.17.130.7:8080/user/manager/products", {
@@ -19,19 +23,22 @@ function LoadingScreen() {
         headers: {
           Authorization: "Bearer " + token,
         },
-      }).then((result) => {
-        result.json().then((re) => {
-          setItemsList(re);
-          console.log(items);
-          setLoading(true);
+      })
+        .then((result) => {
+          result.json().then((re) => {
+            setItemsList(re);
+            setLoading(true);
+          });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      });
     }
   };
 
   useEffect(() => {
     getItem();
-  }, []);
+  }, [isFocused]);
   return loading ? <MainPage items={items} /> : <View style={styles.container}></View>;
 }
 

@@ -2,7 +2,6 @@ import { View, StyleSheet, Text, FlatList } from "react-native";
 import ItemList from "./ItemList";
 
 function ManagerScreen({ items }) {
-  console.log(items);
   return (
     <View style={styles.container}>
       <View style={styles.content}>
