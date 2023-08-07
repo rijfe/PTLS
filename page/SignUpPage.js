@@ -1,5 +1,5 @@
 import { useState, createRef, useRef } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Image } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
 function SignUpPage({ navigation }) {
@@ -10,6 +10,8 @@ function SignUpPage({ navigation }) {
   const [idState, setIdState] = useState(true);
   const [pwdState, setPwdState] = useState(true);
   const [pwdChekState, setPwdChekState] = useState(true);
+  const [visible, setVisible] = useState(true);
+
   const idRef = createRef();
   const pwdRef = createRef();
   const pwdChekRef = createRef();
@@ -40,7 +42,7 @@ function SignUpPage({ navigation }) {
       pwdChekRef.current.focus();
       return;
     } else {
-      fetch("http://172.17.130.7:8080/user/signup", {
+      fetch("http://10.20.72.30:8000/user/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -76,16 +78,27 @@ function SignUpPage({ navigation }) {
             setIdState(true);
           }}
         />
-        <TextInput
-          style={pwdState ? styles.input : [styles.input, { borderColor: "red" }]}
-          placeholder="  PASSWORD"
-          ref={pwdRef}
-          onSubmitEditing={() => pwdChekRef.current && pwdChekRef.current.focus()}
-          onChangeText={(userPwd) => {
-            setPwd(userPwd);
-            setPwdState(true);
-          }}
-        />
+        <View style={styles.pwdBox}>
+          <TextInput
+            style={pwdState ? [styles.input, { width: "100%" }] : [styles.input, { borderColor: "red" }]}
+            placeholder="  PASSWORD"
+            ref={pwdRef}
+            onSubmitEditing={() => pwdChekRef.current && pwdChekRef.current.focus()}
+            onChangeText={(userPwd) => {
+              setPwd(userPwd);
+              setPwdState(true);
+            }}
+            secureTextEntry={visible}
+          />
+          <TouchableOpacity
+            style={styles.eyeBtn}
+            onPress={() => {
+              setVisible(!visible);
+            }}
+          >
+            <Image source={visible ? require("../assets/hide.png") : require("../assets/show.png")} />
+          </TouchableOpacity>
+        </View>
         <TextInput
           style={pwdChekState ? styles.input : [styles.input, { borderColor: "red" }]}
           placeholder="  PASSWORD CHECK"
@@ -95,6 +108,7 @@ function SignUpPage({ navigation }) {
             setPwdChek(userPwdChek);
             setPwdChekState(true);
           }}
+          secureTextEntry={visible}
         />
         <View style={styles.picker}>
           <Picker selectedValue={selected} ref={pickerRef} onValueChange={(itemValue, itemIndex) => setSelected(itemValue)}>
@@ -165,6 +179,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "rgba(0,0,0,0.2)",
+  },
+  pwdBox: {
+    width: "80%",
+    height: 40,
+    marginBottom: 20,
+  },
+  eyeBtn: {
+    position: "absolute",
+    right: 10,
+    top: 8,
   },
 });
 export const headerOptions = () => {

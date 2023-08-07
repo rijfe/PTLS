@@ -19,7 +19,7 @@ function CartPage() {
     sendOrder(order);
   };
   const sendOrder = async (order) => {
-    await fetch("http://172.17.130.7:8080/user/manager/order", {
+    await fetch("http://10.20.72.30:8000/user/manager/order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

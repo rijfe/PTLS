@@ -1,8 +1,17 @@
+import { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
+import OrderModal from "./OrderModal";
+
 function OrderList({ name, product, amount, time }) {
+  const [visible, setVisible] = useState(false);
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        setVisible(!visible);
+      }}
+    >
       <View style={styles.nameBox}>
         <Text>{name}</Text>
       </View>
@@ -12,6 +21,7 @@ function OrderList({ name, product, amount, time }) {
       <View style={styles.timeAndamount}>
         <Text>{time}</Text>
       </View>
+      <OrderModal visible={visible} setVisible={setVisible} />
     </TouchableOpacity>
   );
 }

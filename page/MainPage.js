@@ -25,7 +25,8 @@ function MainPage({ items }) {
 
 export default MainPage;
 
-export const mainHeaderOptions = ({ navigation }) => {
+export const mainHeaderOptions = ({ route, navigation }) => {
+  const { role } = route.params;
   return {
     title: "PTLS",
     headerBackVisible: false,
@@ -36,13 +37,15 @@ export const mainHeaderOptions = ({ navigation }) => {
     headerTitleAlign: "center",
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item
-          title="logout"
-          iconName={"ios-cart"}
-          onPress={() => {
-            navigation.navigate("Cart");
-          }}
-        />
+        {role === "MANAGER" ? (
+          <Item
+            title="logout"
+            iconName={"ios-cart"}
+            onPress={() => {
+              navigation.navigate("Cart");
+            }}
+          />
+        ) : null}
         <Item
           title="logout"
           iconName={"ios-log-out"}

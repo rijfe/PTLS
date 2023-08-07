@@ -18,7 +18,7 @@ function LoadingScreen() {
 
   const getItem = async () => {
     if (role === "MANAGER") {
-      await fetch("http://172.17.130.7:8080/user/manager/products", {
+      await fetch("http://10.20.72.30:8000/user/manager/products", {
         method: "GET",
         headers: {
           Authorization: "Bearer " + token,
@@ -33,6 +33,8 @@ function LoadingScreen() {
         .catch((err) => {
           console.log(err);
         });
+    } else {
+      setLoading(true);
     }
   };
 
