@@ -3,30 +3,22 @@ import CustomHeaderButton from "../components/HeaderButton";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useRecoilValue } from "recoil";
 import { getRole } from "../store/SetRole";
+import { CommonActions } from "@react-navigation/native";
 
 import ManagerScreen from "../components/ManagerScreen";
 import OperatorScreen from "../components/OperatorScreen";
 import { View } from "react-native";
 
 function MainPage({ items }) {
-  const order = [
-    {
-      name: "kim",
-      products: "many thing...",
-      amount: 12,
-      time: "2023-08-02",
-    },
-  ];
-
   const role = useRecoilValue(getRole);
 
-  return <View>{role === "MANAGER" ? <ManagerScreen items={items} /> : <OperatorScreen order={order} />}</View>;
+  return <View>{role === "MANAGER" ? <ManagerScreen items={items} /> : <OperatorScreen order={items} />}</View>;
 }
 
 export default MainPage;
 
 export const mainHeaderOptions = ({ route, navigation }) => {
-  const { role } = route.params;
+  const { userRole } = route.params;
   return {
     title: "PTLS",
     headerBackVisible: false,
@@ -37,7 +29,7 @@ export const mainHeaderOptions = ({ route, navigation }) => {
     headerTitleAlign: "center",
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        {role === "MANAGER" ? (
+        {userRole === "MANAGER" ? (
           <Item
             title="logout"
             iconName={"ios-cart"}
@@ -50,6 +42,7 @@ export const mainHeaderOptions = ({ route, navigation }) => {
           title="logout"
           iconName={"ios-log-out"}
           onPress={() => {
+            navigation.dispatch(CommonActions.setParams({ userRole: null }));
             navigation.pop();
           }}
         />

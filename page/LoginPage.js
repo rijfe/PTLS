@@ -24,7 +24,17 @@ function LoginPage({ navigation }) {
     idInputRef.current.focus();
   };
 
-  const SignInBtnClick = () => {
+  const setParms = (r, t) => {
+    setType(r);
+    setUserToken(t);
+    move(r);
+  };
+
+  const move = (r) => {
+    navigation.navigate("Main", { userRole: r });
+  };
+
+  const SignInBtnClick = async () => {
     if (!userId) {
       Alert.alert("Please enter an ID.");
       setIdState(false);
@@ -36,7 +46,7 @@ function LoginPage({ navigation }) {
       pwdInputRef.current.clear();
       return;
     } else {
-      fetch("http://10.20.72.30:8000/user/login", {
+      await fetch("http://10.20.96.62:8000/user/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -46,13 +56,11 @@ function LoginPage({ navigation }) {
       }).then((reponse) => {
         if (reponse.status === 200) {
           reponse.json().then((re) => {
-            setType(re.role);
-            setUserToken(re.token);
-            clear();
-            setUserId("");
-            setUserPwd("");
-            navigation.navigate("Main", { role: re.role });
+            setParms(re.role, re.token);
           });
+          clear();
+          setUserId("");
+          setUserPwd("");
         } else {
           Alert.alert("Something Problem.");
           return;
@@ -122,7 +130,7 @@ function LoginPage({ navigation }) {
             You can Sign up!
           </Text>
         </View>
-        <Text style={{ marginTop: 15 }}>@ HBU & TCU</Text>
+        <Text style={{ marginTop: 15 }}>@ HBU & TKU</Text>
       </View>
     </View>
   );
@@ -171,10 +179,11 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#006AD5",
+    backgroundColor: "#EA7E93",
   },
   title: {
-    fontSize: 30,
+    fontStyle: "italic",
+    fontSize: 28,
     fontWeight: "700",
     marginBottom: 40,
   },
@@ -184,7 +193,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "center",
   },
   pwdBox: {
     width: "80%",

@@ -18,7 +18,7 @@ function LoadingScreen() {
 
   const getItem = async () => {
     if (role === "MANAGER") {
-      await fetch("http://10.20.72.30:8000/user/manager/products", {
+      await fetch("http://10.20.96.62:8000/user/manager/products", {
         method: "GET",
         headers: {
           Authorization: "Bearer " + token,
@@ -34,8 +34,42 @@ function LoadingScreen() {
           console.log(err);
         });
     } else {
-      setLoading(true);
+      await fetch("http://10.20.96.62:8000/user/operator/order", {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+        .then((result) => {
+          result.json().then((re) => {
+            setOrder(re);
+            setLoading(true);
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
+  };
+
+  const setOrder = (data) => {
+    let newData = [];
+    for (order of data) {
+      let products = "";
+      console.log(order);
+      for (p of order.orderProducts) {
+        products += p.name;
+        products += ",";
+      }
+      newData.push({
+        time: order.date,
+        products: products,
+        orderProducts: order.orderProducts,
+        id: order.orderUserId,
+      });
+    }
+    console.log(newData);
+    setItemsList(newData);
   };
 
   useEffect(() => {

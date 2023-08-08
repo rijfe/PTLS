@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { View, Modal, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, Modal, Text, StyleSheet, TouchableOpacity, Alert, FlatList } from "react-native";
+import OrderProductList from "./OrderProductList";
+import { Item } from "react-navigation-header-buttons";
 
-function OrderModal({ visible, setVisible }) {
+function OrderModal({ visible, setVisible, id, products, time }) {
   const closeModal = () => {
     setVisible(!visible);
   };
@@ -24,6 +26,34 @@ function OrderModal({ visible, setVisible }) {
               <Text>X</Text>
             </TouchableOpacity>
           </View>
+          <View style={styles.userIdBox}>
+            <Text style={{ fontSize: 30, fontWeight: "700" }}>{id}</Text>
+            <Text style={{ fontSize: 13, fontWeight: "500", marginTop: 15, marginLeft: 10 }}>{time}</Text>
+          </View>
+          <View style={styles.orderPrductsBox}>
+            <View style={styles.contentBox}>
+              <View style={styles.idBox}>
+                <Text>ID</Text>
+              </View>
+              <View style={styles.nameBox}>
+                <Text>NAME</Text>
+              </View>
+              <View style={styles.locationBox}>
+                <Text>LOCATION</Text>
+              </View>
+            </View>
+            <FlatList
+              data={products}
+              renderItem={({ item }) => (
+                <OrderProductList id={item.id} name={item.name} location={item.location} keyExtractor={(item) => item.id} />
+              )}
+            />
+          </View>
+          <View style={styles.confirmBtnBox}>
+            <TouchableOpacity style={styles.confirmBtn}>
+              <Text>Confirm</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </TouchableOpacity>
     </Modal>
@@ -40,8 +70,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.4)",
   },
   modalBox: {
-    width: "60%",
-    height: "30%",
+    width: "70%",
+    height: "50%",
     backgroundColor: "white",
     borderRadius: 8,
     flexDirection: "column",
@@ -59,5 +89,56 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+  },
+  userIdBox: {
+    width: "100%",
+    height: 40,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  contentBox: {
+    flexDirection: "row",
+    width: 200,
+    height: 20,
+    borderBottomWidth: 1,
+  },
+  orderPrductsBox: {
+    width: "100%",
+    height: "50%",
+    alignItems: "center",
+    marginTop: 20,
+  },
+  idBox: {
+    width: "20%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  nameBox: {
+    width: "40%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  locationBox: {
+    width: "40%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  confirmBtnBox: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+  confirmBtn: {
+    width: 60,
+    height: 30,
+    backgroundColor: "green",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 10,
+    borderRadius: 8,
   },
 });

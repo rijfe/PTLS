@@ -3,8 +3,9 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import OrderModal from "./OrderModal";
 
-function OrderList({ name, product, amount, time }) {
+function OrderList({ name, product, products, time }) {
   const [visible, setVisible] = useState(false);
+  console.log(products);
   return (
     <TouchableOpacity
       style={styles.container}
@@ -16,12 +17,12 @@ function OrderList({ name, product, amount, time }) {
         <Text>{name}</Text>
       </View>
       <View style={styles.productBox}>
-        <Text>{product}</Text>
+        <Text>{product.length > 18 ? product.slice(0, 17) + "..." : product.slice(0, 17)}</Text>
       </View>
       <View style={styles.timeAndamount}>
         <Text>{time}</Text>
       </View>
-      <OrderModal visible={visible} setVisible={setVisible} />
+      <OrderModal visible={visible} setVisible={setVisible} id={name} products={products} time={time} />
     </TouchableOpacity>
   );
 }

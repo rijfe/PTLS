@@ -2,14 +2,15 @@ import { View, StyleSheet, Text, FlatList } from "react-native";
 import OrderList from "./OrderList";
 
 function OperatorScreen({ order }) {
+  // console.log(order);
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <View style={styles.nameBox}>
-          <Text>NAME</Text>
+          <Text>ID</Text>
         </View>
         <View style={styles.productBox}>
-          <Text>PRODUCT</Text>
+          <Text>PRODUCTS</Text>
         </View>
         <View style={styles.timeAndamount}>
           <Text>TIME</Text>
@@ -17,7 +18,7 @@ function OperatorScreen({ order }) {
       </View>
       <FlatList
         data={order}
-        renderItem={({ item }) => <OrderList name={item.name} product={item.products} amount={item.amount} time={item.time} />}
+        renderItem={({ item }) => <OrderList name={item.id} product={item.products} products={item.orderProducts} time={item.time} />}
         keyExtractor={(item) => item.name}
       />
     </View>

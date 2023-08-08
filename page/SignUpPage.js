@@ -42,7 +42,7 @@ function SignUpPage({ navigation }) {
       pwdChekRef.current.focus();
       return;
     } else {
-      fetch("http://10.20.72.30:8000/user/signup", {
+      fetch("http://10.20.96.62:8000/user/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -125,7 +125,7 @@ function SignUpPage({ navigation }) {
         >
           <Text style={{ color: "white", fontWeight: "700" }}>Sign Up</Text>
         </TouchableOpacity>
-        <Text>@ HBU & TCU</Text>
+        <Text>@ HBU & TKU</Text>
       </View>
     </View>
   );
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#006AD5",
+    backgroundColor: "#EA7E93",
     marginBottom: 20,
   },
   picker: {
