@@ -18,7 +18,7 @@ function LoadingScreen() {
 
   const getItem = async () => {
     if (role === "MANAGER") {
-      await fetch("http://10.20.96.62:8000/user/manager/products", {
+      await fetch(`http://${process.env.API_ADRESS}/user/manager/products`, {
         method: "GET",
         headers: {
           Authorization: "Bearer " + token,
@@ -34,7 +34,7 @@ function LoadingScreen() {
           console.log(err);
         });
     } else {
-      await fetch("http://10.20.96.62:8000/user/operator/order", {
+      await fetch(`http://${process.env.API_ADRESS}/user/operator/order`, {
         method: "GET",
         headers: {
           Authorization: "Bearer " + token,
@@ -44,6 +44,7 @@ function LoadingScreen() {
           result.json().then((re) => {
             setOrder(re);
             setLoading(true);
+            console.log(re);
           });
         })
         .catch((err) => {
@@ -66,6 +67,7 @@ function LoadingScreen() {
         products: products,
         orderProducts: order.orderProducts,
         id: order.orderUserId,
+        orderId: order.orderId,
       });
     }
     console.log(newData);

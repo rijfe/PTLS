@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import OrderList from "./OrderList";
 
 function OperatorScreen({ order }) {
   // console.log(order);
+  const [finish, setFinish] = useState(false);
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -18,7 +20,17 @@ function OperatorScreen({ order }) {
       </View>
       <FlatList
         data={order}
-        renderItem={({ item }) => <OrderList name={item.id} product={item.products} products={item.orderProducts} time={item.time} />}
+        renderItem={({ item }) => (
+          <OrderList
+            name={item.id}
+            product={item.products}
+            products={item.orderProducts}
+            time={item.time}
+            orderId={item.orderId}
+            finish={finish}
+            setFinish={setFinish}
+          />
+        )}
         keyExtractor={(item) => item.name}
       />
     </View>

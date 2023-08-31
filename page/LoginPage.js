@@ -46,7 +46,7 @@ function LoginPage({ navigation }) {
       pwdInputRef.current.clear();
       return;
     } else {
-      await fetch("http://10.20.96.62:8000/user/login", {
+      await fetch(`http://${process.env.API_ADRESS}/user/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -57,6 +57,7 @@ function LoginPage({ navigation }) {
         if (reponse.status === 200) {
           reponse.json().then((re) => {
             setParms(re.role, re.token);
+            console.log(re);
           });
           clear();
           setUserId("");

@@ -1,11 +1,29 @@
 import { useState } from "react";
 import { View, Modal, Text, StyleSheet, TouchableOpacity, Alert, FlatList } from "react-native";
 import OrderProductList from "./OrderProductList";
-import { Item } from "react-navigation-header-buttons";
+import { getToken } from "../store/SetToken";
+import { useRecoilValue } from "recoil";
 
-function OrderModal({ visible, setVisible, id, products, time }) {
+function OrderModal({ visible, setVisible, id, products, time, orderId, finish, setFinish }) {
+  const token = useRecoilValue(getToken);
   const closeModal = () => {
     setVisible(!visible);
+  };
+
+  const confirmBtnClick = async () => {
+    await fetch(`http://${process.env.API_ADRESS}/user/operator/accept?orderId=${orderId}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }).then((result) => {
+      result.json().then((re) => {
+        console.log(re);
+      });
+      if (result.status === 200) {
+        setFinish(!finish);
+      }
+    });
   };
   return (
     <Modal animationType="fade" visible={visible} transparent statusBarTranslucent>
@@ -50,7 +68,12 @@ function OrderModal({ visible, setVisible, id, products, time }) {
             />
           </View>
           <View style={styles.confirmBtnBox}>
-            <TouchableOpacity style={styles.confirmBtn}>
+            <TouchableOpacity
+              style={styles.confirmBtn}
+              onPress={() => {
+                confirmBtnClick();
+              }}
+            >
               <Text>Confirm</Text>
             </TouchableOpacity>
           </View>

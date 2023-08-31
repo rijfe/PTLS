@@ -42,7 +42,7 @@ function SignUpPage({ navigation }) {
       pwdChekRef.current.focus();
       return;
     } else {
-      fetch("http://10.20.96.62:8000/user/signup", {
+      fetch(`http://${process.env.API_ADRESS}/user/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
