@@ -4,6 +4,7 @@ import ItemInfoModal from "./ItemInfoModal";
 
 function ItemList({ id, name, location, amount }) {
   const [visible, setVisible] = useState(false);
+  // If you click on each item in the list, you will see information on the item, buttons that can be put in the cart, and modal that can be selected.
   return (
     <TouchableOpacity
       style={styles.container}

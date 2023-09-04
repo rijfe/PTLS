@@ -17,6 +17,7 @@ function LoadingScreen() {
   const isFocused = useIsFocused();
 
   const getItem = async () => {
+    //Each role has different data from the server.
     if (role === "MANAGER") {
       await fetch(`http://${process.env.API_ADRESS}/user/manager/products`, {
         method: "GET",
@@ -53,6 +54,7 @@ function LoadingScreen() {
     }
   };
 
+  // It is a function that converts imported data into the desired format.
   const setOrder = (data) => {
     let newData = [];
     for (order of data) {
@@ -77,6 +79,8 @@ function LoadingScreen() {
   useEffect(() => {
     getItem();
   }, [isFocused]);
+
+  // If the data is imported successfully, the loading is completed and the next screen is moved on.
   return loading ? <MainPage items={items} /> : <View style={styles.container}></View>;
 }
 

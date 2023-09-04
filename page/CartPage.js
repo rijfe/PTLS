@@ -9,8 +9,8 @@ function CartPage() {
   const [cart, setCart] = useRecoilState(setCartItems);
   const cartList = useRecoilValue(setCartItems);
   const token = useRecoilValue(getToken);
-  console.log(cartList);
 
+  //Replace items in the cart with the format required by the server before sending them to the server.
   const makeOrder = () => {
     const order = [];
     for (list of cartList) {
@@ -18,6 +18,8 @@ function CartPage() {
     }
     sendOrder(order);
   };
+
+  // When you click a button, change the format and deliver it to the server.
   const sendOrder = async (order) => {
     await fetch(`http://${process.env.API_ADRESS}/user/manager/order`, {
       method: "POST",
@@ -68,6 +70,7 @@ function CartPage() {
             <Image style={{ width: 25, height: 25 }} source={require("../assets/send.png")} />
           </TouchableOpacity>
         </View>
+        {/* Click the button below to erase all items in the cart. */}
         <View style={styles.resetBtnBox}>
           <TouchableOpacity
             style={styles.resetBtn}

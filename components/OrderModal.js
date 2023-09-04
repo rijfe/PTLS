@@ -10,6 +10,7 @@ function OrderModal({ visible, setVisible, id, products, time, orderId, finish, 
     setVisible(!visible);
   };
 
+  // When you press the confirm button, the order enters and delivers the order to the hardware.
   const confirmBtnClick = async () => {
     await fetch(`http://${process.env.API_ADRESS}/user/operator/accept?orderId=${orderId}`, {
       method: "GET",

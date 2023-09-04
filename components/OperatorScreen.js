@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, FlatList } from "react-native";
 import OrderList from "./OrderList";
 
 function OperatorScreen({ order }) {
-  // console.log(order);
+  // The screen that you see when the role is an operator. You can view incoming orders and view details when you click on an order.
   const [finish, setFinish] = useState(false);
   return (
     <View style={styles.container}>

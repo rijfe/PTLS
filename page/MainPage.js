@@ -12,6 +12,7 @@ import { View } from "react-native";
 function MainPage({ items }) {
   const role = useRecoilValue(getRole);
 
+  // The screen changes depending on the role.
   return <View>{role === "MANAGER" ? <ManagerScreen items={items} /> : <OperatorScreen order={items} />}</View>;
 }
 
@@ -29,6 +30,7 @@ export const mainHeaderOptions = ({ route, navigation }) => {
     headerTitleAlign: "center",
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        {/* If the role is not a manager, you don't need a cart function. */}
         {userRole === "MANAGER" ? (
           <Item
             title="logout"

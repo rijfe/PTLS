@@ -14,18 +14,21 @@ function ItemInfoModal({ visible, setVisible, id, name, location, total }) {
     setOrderCount(0);
   };
 
+  // A function that reduces the amount of water to be placed in the cart.
   const subBtnClick = () => {
     if (orderCount > 0) {
       setOrderCount(orderCount - 1);
     }
   };
 
+  // Function that increases the quantity to be placed in the cart.
   const plusBtnClick = () => {
     if (orderCount < total) {
       setOrderCount(orderCount + 1);
     }
   };
 
+  // Function to add as many quantities as you choose to the cart.
   const addBtnClick = () => {
     if (orderCount <= 0) {
       Alert.alert("Not available for ordering.");

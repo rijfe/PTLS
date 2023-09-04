@@ -2,6 +2,7 @@ import { View, StyleSheet, Text, FlatList } from "react-native";
 import ItemList from "./ItemList";
 
 function ManagerScreen({ items }) {
+  // When the role is a manager, it shows information about items.
   return (
     <View style={styles.container}>
       <View style={styles.content}>

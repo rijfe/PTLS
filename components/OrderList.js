@@ -5,7 +5,8 @@ import OrderModal from "./OrderModal";
 
 function OrderList({ name, product, products, time, orderId, finish, setFinish }) {
   const [visible, setVisible] = useState(false);
-  console.log(products);
+
+  //  You can view incoming orders and view details when you click on an order. Click to view details through modal.
   return (
     <TouchableOpacity
       style={styles.container}
